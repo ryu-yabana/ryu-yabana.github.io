@@ -5,39 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Monolith | Parallel Universe</title>
     <style>
-        /* 1. RESET & BASE STYLING */
+        /* Force basic visibility */
         body, html {
             margin: 0; padding: 0;
-            background: #050505;
+            background: #050505 !important; 
             color: white;
             font-family: 'Courier New', Courier, monospace;
             height: 100%;
             overflow-x: hidden;
-            scroll-behavior: smooth;
         }
 
-        /* 2. ATMOSPHERIC LAYERS */
-        .mist-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; pointer-events: none;
-        }
-        .blob {
-            position: absolute; width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(20,30,40,0.3) 0%, rgba(0,0,0,0) 70%);
-            border-radius: 50%; filter: blur(80px);
-            animation: drift 25s infinite ease-in-out;
-        }
-        #blob2 { left: 40%; top: 20%; animation-duration: 35s; opacity: 0.5; }
-
-        @keyframes drift {
-            0%, 100% { transform: translate(0,0) scale(1); }
-            50% { transform: translate(100px, -50px) scale(1.1); }
-        }
-
+        /* Ensure the grain doesn't block clicks */
         .grain {
             position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
             background-image: url("https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Resolution_White_Noise_Video_Frame.png");
-            opacity: 0.04; pointer-events: none; z-index: 10;
+            opacity: 0.04; pointer-events: none; z-index: 99;
             animation: noise 0.2s infinite;
         }
 
@@ -47,72 +29,117 @@
             100% { transform: translate(5%, -5%) }
         }
 
-        /* 3. MAIN MONOLITH SECTION */
+        /* Main Section */
         #universe {
             height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             position: relative;
-            z-index: 5;
+            z-index: 10;
         }
 
         #monolith {
-            width: 60px; height: 280px;
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            box-shadow: 0 0 40px rgba(0,0,0,0.5), inset 0 0 15px rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
+            width: 60px;
+            height: 280px;
+            background: rgba(255, 255, 255, 0.1); /* Increased initial visibility */
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.2);
             cursor: pointer;
-            transition: all 3s cubic-bezier(0.16, 1, 0.3, 1);
-            animation: float 8s ease-in-out infinite;
-        }
-
-        #monolith:hover {
-            height: 320px;
-            border-color: rgba(255,255,255,0.5);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(0.5deg); }
+            transition: all 1s ease;
+            box-shadow: 0 0 30px rgba(255,255,255,0.05);
         }
 
         #instruction {
-            position: absolute; bottom: 8%;
-            font-size: 10px; letter-spacing: 5px;
-            opacity: 0.3; text-transform: uppercase;
+            margin-top: 30px;
+            font-size: 10px;
+            letter-spacing: 5px;
+            opacity: 0.6;
+            text-transform: uppercase;
         }
 
-        /* 4. ARCHIVE / GALLERY SECTION */
+        /* Gallery Section */
         #gallery {
-            padding: 150px 10%;
+            padding: 100px 10%;
             background: #050505;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 100px;
-            z-index: 5;
-            position: relative;
-        }
-
-        .item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            z-index: 10;
         }
 
         .item-box {
-            width: 100%; aspect-ratio: 16/9;
+            width: 100%; height: 200px;
             background: #080808;
-            border: 1px solid rgba(255,255,255,0.05);
-            margin-bottom: 25px;
-            position: relative;
-            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
             display: flex; justify-content: center; align-items: center;
         }
 
-        .grid-overlay {
-            position: absolute; width: 100%; height: 100%;
-            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), 
-                              linear-gradient(90deg, rgba(
+        .artifact-link {
+            font-size: 9px;
+            color: #888;
+            text-decoration: none;
+            border: 1px solid #333;
+            padding: 5px 10px;
+            margin-right: 5px;
+        }
+        
+        .artifact-link:hover { color: white; border-color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="grain"></div>
+    
+    <section id="universe">
+        <div id="monolith" onclick="startUniverse()"></div>
+        <div id="instruction">TOUCH TO SYNCHRONIZE</div>
+    </section>
+
+    <section id="gallery">
+        <div class="item">
+            <div class="item-box"> [ ARCHIVE_01 ] </div>
+            <div class="item-links">
+                <a href="https://ryuyabana.gumroad.com/" target="_blank" class="artifact-link">GUMROAD</a>
+                <a href="https://yabanamusic.bandcamp.com/" target="_blank" class="artifact-link">BANDCAMP</a>
+                <a href="https://www.youtube.com/@YabanaMusic" target="_blank" class="artifact-link">YOUTUBE</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let audioCtx, biquadFilter, isActive = false;
+
+        function startUniverse() {
+            if (isActive) return;
+            isActive = true;
+
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                biquadFilter = audioCtx.createBiquadFilter();
+                biquadFilter.type = "lowpass";
+                biquadFilter.frequency.setValueAtTime(400, audioCtx.currentTime);
+
+                const files = ['main-bgm-percs.mp3', 'main-bgm-pad-1.mp3', 'main-bgm-pad-2.mp3'];
+                
+                files.forEach(file => {
+                    const audio = new Audio(file);
+                    audio.loop = true;
+                    const source = audioCtx.createMediaElementSource(audio);
+                    source.connect(biquadFilter);
+                    biquadFilter.connect(audioCtx.destination);
+                    audio.play();
+                });
+
+                document.getElementById('instruction').innerText = "SYNCHRONIZED // SCROLL DOWN";
+                document.getElementById('monolith').style.borderColor = "white";
+            } catch (e) {
+                console.error("Audio failed:", e);
+                document.getElementById('instruction').innerText = "SYNC ERROR - CHECK MP3 FILES";
+            }
+        }
+    </script>
+</body>
+</html>
