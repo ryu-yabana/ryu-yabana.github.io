@@ -315,21 +315,22 @@ function startUniverse() {
     document.getElementById('identity').style.opacity = 0.6;
 }
 
-document.addEventListener('mousemove', (e) => {
+document.addEventListener('touchmove', (e) => {
     if (!isActive) return;
 
-    const dist = Math.sqrt(
-        Math.pow(e.clientX - window.innerWidth/2, 2) +
-        Math.pow(e.clientY - window.innerHeight/2, 2)
-    );
+    const touch = e.touches[0];
 
-    const freq = Math.max(400, 20000 - (dist * 20));
+    const y = touch.clientY;
+    const percent = y / window.innerHeight;
+
+    const freq = 400 + (1 - percent) * 19600;
+
     if (biquadFilter) {
         biquadFilter.frequency.setTargetAtTime(freq, audioCtx.currentTime, 0.1);
     }
 
     const artifacts = document.querySelectorAll('.artifact');
-    let opacity = (dist - 150) / 400;
+    let opacity = (percent - 0.2) * 1.5;
 
     artifacts.forEach(a => {
         a.style.opacity = Math.min(Math.max(opacity, 0), 0.7);
