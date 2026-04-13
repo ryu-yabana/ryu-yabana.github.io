@@ -79,45 +79,58 @@
         text-transform: uppercase;
         pointer-events: none;
     }
-<audio id="track1" loop src="main-bgm-percs.mp3"></audio>
-    <audio id="track2" loop src="main-bgm-pad-1.mp3"></audio>
-    <audio id="track3" loop src="main-bgm-pad-2.mp3"></audio>
-
-    <script>
-        function startUniverse() {
-            const tracks = [
-                document.getElementById('track1'),
-                document.getElementById('track2'),
-                document.getElementById('track3')
-            ];
-            
-            tracks.forEach(t => {
-                t.volume = 0;
-                // We use a Promise check to ensure the browser is ready
-                let playPromise = t.play();
-                
-                if (playPromise !== undefined) {
-                    playPromise.then(_ => {
-                        // Gentle fade-in (Organic Gradation)
-                        let vol = 0;
-                        const interval = setInterval(() => {
-                            if (vol < 0.4) { // Capping at 40% volume for "Quiet Luxury"
-                                vol += 0.01;
-                                t.volume = vol;
-                            } else {
-                                clearInterval(interval);
-                            }
-                        }, 150);
-                    }).catch(error => {
-                        console.log("Interaction required to start audio.");
-                    });
-                }
-            });
-
-            // Update UI
-            document.getElementById('instruction').style.opacity = "0.8";
-            document.getElementById('instruction').innerText = "Universe Synchronized";
-            document.getElementById('monolith').style.borderColor = "rgba(255,255,255,0.5)";
+<style>
+        body {
+            margin: 0;
+            background: radial-gradient(circle at center, #0f1215 0%, #050505 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
         }
+
+        /* The Grain Layer - Adds Organic Texture */
+        .grain {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background-image: url("https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Resolution_White_Noise_Video_Frame.png");
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 10;
+            animation: noise 0.2s infinite;
+        }
+
+        @keyframes noise {
+            0% { transform: translate(0,0) }
+            10% { transform: translate(-5%,-5%) }
+            20% { transform: translate(-10%,5%) }
+            30% { transform: translate(5%,-10%) }
+            40% { transform: translate(-5%,15%) }
+            50% { transform: translate(-10%,5%) }
+            60% { transform: translate(15%,0) }
+            70% { transform: translate(0,10%) }
+            80% { transform: translate(-15%,0) }
+            90% { transform: translate(10%,5%) }
+            100% { transform: translate(5%,0) }
+        }
+
+        /* The Monolith - The "Goshintai" / Focal Point */
+        #monolith {
+            width: 60px;
+            height: 280px;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(15px); /* Futuristic Glass */
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 0 40px rgba(0,0,0,0.5), inset 0 0 15px rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            z-index: 5;
+            transition: all 3s cubic-bezier(0.16, 1, 0.
     </script>
 </html>
