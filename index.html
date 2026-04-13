@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Monolith | Parallel Universe</title>
     <style>
-        /* BASE STYLING */
+        /* 1. RESET & BASE STYLING */
         body, html {
             margin: 0; padding: 0;
             background: #050505;
@@ -16,7 +16,7 @@
             scroll-behavior: smooth;
         }
 
-        /* 1. ORGANIC VISUALS: THE MIST & GRAIN */
+        /* 2. ATMOSPHERIC LAYERS */
         .mist-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1; pointer-events: none;
@@ -47,7 +47,7 @@
             100% { transform: translate(5%, -5%) }
         }
 
-        /* 2. THE UNIVERSE SECTION (MAIN) */
+        /* 3. MAIN MONOLITH SECTION */
         #universe {
             height: 100vh;
             display: flex;
@@ -61,4 +61,58 @@
             width: 60px; height: 280px;
             background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            box-shadow:
+            box-shadow: 0 0 40px rgba(0,0,0,0.5), inset 0 0 15px rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            transition: all 3s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        #monolith:hover {
+            height: 320px;
+            border-color: rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(0.5deg); }
+        }
+
+        #instruction {
+            position: absolute; bottom: 8%;
+            font-size: 10px; letter-spacing: 5px;
+            opacity: 0.3; text-transform: uppercase;
+        }
+
+        /* 4. ARCHIVE / GALLERY SECTION */
+        #gallery {
+            padding: 150px 10%;
+            background: #050505;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 100px;
+            z-index: 5;
+            position: relative;
+        }
+
+        .item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .item-box {
+            width: 100%; aspect-ratio: 16/9;
+            background: #080808;
+            border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        .grid-overlay {
+            position: absolute; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), 
+                              linear-gradient(90deg, rgba(
