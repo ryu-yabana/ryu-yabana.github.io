@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Monolith | Parallel Universe</title>
     <style>
-        /* 1. FUNDAMENTALS */
+        /* 1. CORE STYLING */
         body, html {
             margin: 0; padding: 0;
             background-color: #050505;
@@ -31,17 +31,17 @@
         .mist-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
         .blob {
             position: absolute; width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(20,30,40,0.3) 0%, rgba(0,0,0,0) 70%);
+            background: radial-gradient(circle, rgba(20,30,40,0.2) 0%, rgba(0,0,0,0) 70%);
             border-radius: 50%; filter: blur(80px);
             animation: drift 25s infinite ease-in-out;
         }
-        #blob2 { left: 45%; top: 15%; animation-duration: 35s; opacity: 0.4; }
+        #blob2 { left: 45%; top: 15%; animation-duration: 35s; opacity: 0.3; }
         @keyframes drift {
             0%, 100% { transform: translate(0,0) scale(1); }
-            50% { transform: translate(80px, -40px) scale(1.1); }
+            50% { transform: translate(60px, -30px) scale(1.05); }
         }
 
-        /* 3. MAIN UNIVERSE SECTION */
+        /* 3. THE MONOLITH SECTION */
         #universe {
             height: 100vh; width: 100%;
             display: flex; justify-content: center; align-items: center;
@@ -50,13 +50,15 @@
 
         #monolith {
             width: 60px; height: 280px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.03);
+            /* Removed the harsh border and replaced with a soft glow */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             cursor: pointer;
-            box-shadow: 0 0 50px rgba(0,0,0,0.9);
+            box-shadow: 0 0 50px rgba(0,0,0,0.9), inset 0 0 20px rgba(255,255,255,0.02);
             transition: all 2.5s cubic-bezier(0.16, 1, 0.3, 1);
             animation: float 9s ease-in-out infinite;
+            outline: none; /* Removes browser focus ring */
         }
         @keyframes float {
             0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -64,15 +66,15 @@
         }
         #monolith:hover {
             height: 310px;
-            border-color: rgba(255, 255, 255, 0.5);
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         /* COORDINATES */
         .artifact {
             position: absolute; font-size: 9px; letter-spacing: 2px;
             text-decoration: none; color: rgba(255, 255, 255, 0.4);
-            opacity: 0; transition: opacity 1.2s ease;
+            opacity: 0; transition: opacity 1.5s ease;
         }
         #art-yt { top: 22%; left: 28%; }
         #art-bc { bottom: 28%; right: 30%; }
@@ -83,38 +85,31 @@
             opacity: 0.4; text-transform: uppercase;
         }
 
-        /* 4. SCHEMATIC ARCHIVE (GALLERY) */
+        /* 4. GALLERY */
         #gallery {
             padding: 160px 10%; background: #050505;
             display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 120px; position: relative; z-index: 10;
         }
-
         .item { display: flex; flex-direction: column; align-items: center; }
-
         .item-box {
             width: 100%; aspect-ratio: 16/9;
             background: #080808; border: 1px solid rgba(255,255,255,0.04);
             margin-bottom: 25px; position: relative; overflow: hidden;
             display: flex; justify-content: center; align-items: center;
         }
-
         .grid-overlay {
             position: absolute; width: 100%; height: 100%;
             background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), 
                               linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
             background-size: 25px 25px;
         }
-
         .schematic {
             width: 50px; height: 50px; border: 1px solid rgba(255,255,255,0.15);
             animation: rotate-geo 20s linear infinite;
         }
-
         @keyframes rotate-geo { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
         .item-links { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-
         .artifact-link {
             font-size: 9px; letter-spacing: 1.5px; text-decoration: none;
             color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.1);
@@ -155,4 +150,70 @@
         <div class="item">
             <div class="item-box">
                 <div class="grid-overlay"></div>
-                <div class="schematic" style="border-radius:
+                <div class="schematic" style="border-radius: 50%;"></div>
+            </div>
+            <div class="item-links">
+                <a href="https://ryuyabana.gumroad.com/" target="_blank" class="artifact-link">GUMROAD</a>
+                <a href="https://yabanamusic.bandcamp.com/" target="_blank" class="artifact-link">BANDCAMP</a>
+                <a href="https://www.youtube.com/@YabanaMusic" target="_blank" class="artifact-link">YOUTUBE</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let audioCtx, biquadFilter, isActive = false;
+
+        function activateUniverse() {
+            if (isActive) return;
+            isActive = true;
+
+            // Audio Setup
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            biquadFilter = audioCtx.createBiquadFilter();
+            biquadFilter.type = "lowpass";
+            biquadFilter.frequency.setValueAtTime(400, audioCtx.currentTime);
+
+            const files = ['main-bgm-percs.mp3', 'main-bgm-pad-1.mp3', 'main-bgm-pad-2.mp3'];
+            
+            files.forEach(file => {
+                const audio = new Audio();
+                audio.src = file;
+                audio.loop = true;
+                // CRITICAL: This allows the audio to be filtered even if hosted on GitHub Pages
+                audio.crossOrigin = "anonymous"; 
+                
+                const source = audioCtx.createMediaElementSource(audio);
+                source.connect(biquadFilter);
+                biquadFilter.connect(audioCtx.destination);
+                
+                audio.play().catch(err => {
+                    console.error("Audio block:", err);
+                    document.getElementById('instruction').innerText = "AUDIO BLOCKED BY BROWSER";
+                });
+            });
+
+            document.getElementById('instruction').innerText = "Universe Active // Scroll to Discover Archive";
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isActive) return;
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const dist = Math.sqrt(Math.pow(e.clientX - centerX, 2) + Math.pow(e.clientY - centerY, 2));
+            
+            // Filter Control
+            const freq = Math.max(400, 16000 - (dist * 25));
+            if(biquadFilter) {
+                biquadFilter.frequency.setTargetAtTime(freq, audioCtx.currentTime, 0.1);
+            }
+
+            // Artifact Visibility
+            const artifacts = document.querySelectorAll('.artifact');
+            let opacity = (dist - 140) / 450; 
+            artifacts.forEach(a => {
+                a.style.opacity = Math.min(Math.max(opacity, 0), 0.6);
+            });
+        });
+    </script>
+</body>
+</html>
