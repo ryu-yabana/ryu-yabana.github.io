@@ -41,8 +41,8 @@
 
         @keyframes noise {
             0% { transform: translate(0,0) }
-            50% { transform: translate(-50px, 50px) }
-            100% { transform: translate(50px, -50px) }
+            50% { transform: translate(-2%, 2%) }
+            100% { transform: translate(2%, -2%) }
         }
 
         /* 2. Main Universe Section */
@@ -52,4 +52,39 @@
         }
 
         #monolith {
-            width: 60px; height: 28
+            width: 60px; height: 280px;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 0 40px rgba(0,0,0,0.5), inset 0 0 15px rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer; transition: all 3s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        #monolith:hover { height: 320px; border-color: rgba(255,255,255,0.5); }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(0.5deg); }
+        }
+
+        .artifact {
+            position: absolute; font-size: 9px; letter-spacing: 2px;
+            text-decoration: none; color: rgba(255, 255, 255, 0.5);
+            opacity: 0; transition: opacity 1.5s ease;
+        }
+        #art-yt { top: 20%; left: 20%; }
+        #art-bc { bottom: 25%; left: 30%; }
+
+        #instruction {
+            position: absolute; bottom: 8%; font-size: 10px;
+            letter-spacing: 5px; opacity: 0.3;
+        }
+
+        /* 3. Futuristic Organic Gallery Replacement */
+        #node-section {
+            padding: 150px 0;
+            display: flex;
+            justify-content: center;
+            gap: 100px;
+            z-index: 5;
