@@ -4,70 +4,117 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Monolith | Parallel Universe</title>
-    <style>
-        body {
-            margin: 0;
-            background: #050505; /* Deep Void */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-            color: white;
-            font-family: sans-serif;
-        }
+   <style>
+    body {
+        margin: 0;
+        background: radial-gradient(circle at center, #0f1215 0%, #050505 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+        color: white;
+        font-family: 'Courier New', Courier, monospace; /* More futuristic/minimal */
+    }
 
-        /* The Monolith */
-        #monolith {
-            width: 80px;
-            height: 300px;
-            background: linear-gradient(180deg, #111, #222);
-            box-shadow: 0 0 30px rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            cursor: pointer;
-            transition: all 2s ease;
-            animation: float 6s ease-in-out infinite;
-        }
+    /* The Grain Layer */
+    .grain {
+        position: fixed;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background-image: url("https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Resolution_White_Noise_Video_Frame.png");
+        opacity: 0.04; /* Very subtle */
+        pointer-events: none;
+        z-index: 10;
+        animation: noise 0.2s infinite;
+    }
 
-        #monolith:hover {
-            box-shadow: 0 0 50px rgba(255,255,255,0.2);
-            border: 1px solid rgba(255,255,255,0.3);
-        }
+    @keyframes noise {
+        0% { transform: translate(0,0) }
+        10% { transform: translate(-5%,-5%) }
+        20% { transform: translate(-10%,5%) }
+        30% { transform: translate(5%,-10%) }
+        40% { transform: translate(-5%,15%) }
+        50% { transform: translate(-10%,5%) }
+        60% { transform: translate(15%,0) }
+        70% { transform: translate(0,10%) }
+        80% { transform: translate(-15%,0) }
+        90% { transform: translate(10%,5%) }
+        100% { transform: translate(5%,0) }
+    }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
+    /* The Monolith */
+    #monolith {
+        width: 60px;
+        height: 280px;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px); /* Futuristic Glass effect */
+        box-shadow: 0 0 40px rgba(0,0,0,0.5), inset 0 0 10px rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        cursor: pointer;
+        z-index: 5;
+        transition: all 3s cubic-bezier(0.16, 1, 0.3, 1);
+        animation: float 8s ease-in-out infinite;
+    }
 
-        #instruction {
-            position: absolute;
-            bottom: 10%;
-            font-size: 0.7rem;
-            letter-spacing: 3px;
-            opacity: 0.4;
-            text-transform: uppercase;
-        }
-    </style>
-</head>
+    #monolith:hover {
+        border: 1px solid rgba(255,255,255,0.4);
+        background: rgba(255, 255, 255, 0.07);
+        height: 320px;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-15px) rotate(0.5deg); }
+    }
+
+    #instruction {
+        position: absolute;
+        bottom: 8%;
+        font-size: 10px;
+        letter-spacing: 5px;
+        opacity: 0.3;
+        text-transform: uppercase;
+        pointer-events: none;
+    }
+</style>
+
 <body>
-
+    <div class="grain"></div>
     <div id="monolith" onclick="startUniverse()"></div>
-    <div id="instruction">Touch the Monolith</div>
+    <div id="instruction">Establishing Connection</div>
 
-    <audio id="track1" loop src="main-bgm-percs.mp3"></audio>
-    <audio id="track2" loop src="main-bgm-pad-2.mp3"></audio>
-    <audio id="track3" loop src="main-bgm-pad-1.mp3"></audio>
+    <audio id="track1" loop src="synth.mp3"></audio>
+    <audio id="track2" loop src="field.mp3"></audio>
+    <audio id="track3" loop src="texture.mp3"></audio>
 
     <script>
         function startUniverse() {
-            // Browsers block auto-playing audio, 
-            // so we start them when the user clicks the Monolith.
-            document.getElementById('track1').play();
-            document.getElementById('track2').play();
-            document.getElementById('track3').play();
+            const tracks = [
+                document.getElementById('track1'),
+                document.getElementById('track2'),
+                document.getElementById('track3')
+            ];
             
-            document.getElementById('instruction').innerText = "Universe Active";
-            document.getElementById('monolith').style.height = "350px";
+            tracks.forEach(t => {
+                t.volume = 0;
+                t.play();
+                // Gentle fade-in (Organic Gradation)
+                let vol = 0;
+                const interval = setInterval(() => {
+                    if (vol < 0.5) {
+                        vol += 0.01;
+                        t.volume = vol;
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 100);
+            });
+
+            document.getElementById('instruction').style.opacity = "0.8";
+            document.getElementById('instruction').innerText = "Universe Synchronized";
         }
     </script>
 </body>
