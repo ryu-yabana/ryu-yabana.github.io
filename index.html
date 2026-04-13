@@ -60,54 +60,29 @@
             font-family: 'Courier New', Courier, monospace;
         }
 
-        /* The Grain Layer - Adds Organic Texture */
         .grain {
             position: fixed;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
+            top: -50%; left: -50%; width: 200%; height: 200%;
             background-image: url("https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Resolution_White_Noise_Video_Frame.png");
-            opacity: 0.04;
-            pointer-events: none;
-            z-index: 10;
+            opacity: 0.04; pointer-events: none; z-index: 10;
             animation: noise 0.2s infinite;
         }
 
         @keyframes noise {
             0% { transform: translate(0,0) }
-            10% { transform: translate(-5%,-5%) }
-            20% { transform: translate(-10%,5%) }
-            30% { transform: translate(5%,-10%) }
-            40% { transform: translate(-5%,15%) }
-            50% { transform: translate(-10%,5%) }
-            60% { transform: translate(15%,0) }
-            70% { transform: translate(0,10%) }
-            80% { transform: translate(-15%,0) }
-            90% { transform: translate(10%,5%) }
-            100% { transform: translate(5%,0) }
+            50% { transform: translate(-5%, 5%) }
+            100% { transform: translate(5%, -5%) }
         }
 
-        /* The Monolith - The "Goshintai" / Focal Point */
         #monolith {
-            width: 60px;
-            height: 280px;
+            width: 60px; height: 280px;
             background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(15px); /* Futuristic Glass */
-            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             box-shadow: 0 0 40px rgba(0,0,0,0.5), inset 0 0 15px rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
-            cursor: pointer;
-            z-index: 5;
+            cursor: pointer; z-index: 5;
             transition: all 3s cubic-bezier(0.16, 1, 0.3, 1);
             animation: float 8s ease-in-out infinite;
-        }
-
-        #monolith:hover {
-            border: 1px solid rgba(255,255,255,0.4);
-            background: rgba(255, 255, 255, 0.05);
-            height: 320px;
-            box-shadow: 0 0 60px rgba(255,255,255,0.1);
         }
 
         @keyframes float {
@@ -115,15 +90,56 @@
             50% { transform: translateY(-20px) rotate(0.5deg); }
         }
 
-        #instruction {
+        /* The Coordinates (Artifacts) */
+        .artifact {
             position: absolute;
-            bottom: 8%;
-            font-size: 10px;
-            letter-spacing: 5px;
-            opacity: 0.3;
-            text-transform: uppercase;
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.5);
+            opacity: 0; /* Hidden by default */
+            transition: opacity 1.5s ease, color 0.5s ease;
+            z-index: 4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: drift 12s ease-in-out infinite;
+        }
+
+        .artifact:hover {
+            color: rgba(255, 255, 255, 1);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .aura {
+            width: 4px; height: 4px;
+            background: white;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            animation: pulse 4s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.5); opacity: 0.8; }
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(10px, -15px); }
+            66% { transform: translate(-10px, 10px); }
+        }
+
+        /* Specific positions for the 3 artifacts */
+        #art-yt { top: 20%; left: 20%; }
+        #art-gr { top: 40%; right: 15%; }
+        #art-bc { bottom: 25%; left: 30%; }
+
+        #instruction {
+            position: absolute; bottom: 8%; font-size: 10px;
+            letter-spacing: 5px; opacity: 0.3; text-transform: uppercase;
             pointer-events: none;
-            transition: opacity 2s ease;
         }
     </style>
 </head>
@@ -131,6 +147,22 @@
     <div class="grain"></div>
     
     <div id="monolith" onclick="startUniverse()"></div>
+    
+    <a href="https://www.youtube.com/@YabanaMusic" target="_blank" class="artifact" id="art-yt">
+        <div class="aura"></div>
+        <span>LOC // 35.4785.YT</span>
+    </a>
+
+    <a href="https://ryuyabana.gumroad.com/" target="_blank" class="artifact" id="art-gr">
+        <div class="aura"></div>
+        <span>LOC // 139.6318.GR</span>
+    </a>
+
+    <a href="https://yabanamusic.bandcamp.com/" target="_blank" class="artifact" id="art-bc">
+        <div class="aura"></div>
+        <span>LOC // 02.19.2026.BC</span>
+    </a>
+
     <div id="instruction">Establishing Connection</div>
 
     <audio id="track1" loop src="main-bgm-percs.mp3"></audio>
@@ -141,7 +173,7 @@
         let isActive = false;
 
         function startUniverse() {
-            if (isActive) return; // Prevents restarting on multiple clicks
+            if (isActive) return;
             isActive = true;
 
             const tracks = [
@@ -150,35 +182,38 @@
                 document.getElementById('track3')
             ];
             
-            tracks.forEach((t, index) => {
+            tracks.forEach(t => {
                 t.volume = 0;
-                let playPromise = t.play();
-                
-                if (playPromise !== undefined) {
-                    playPromise.then(_ => {
-                        // Gradual fade-in for each track
-                        let vol = 0;
-                        const targetVol = 0.4; // Peaceful volume limit
-                        const interval = setInterval(() => {
-                            if (vol < targetVol) {
-                                vol += 0.01;
-                                t.volume = vol;
-                            } else {
-                                clearInterval(interval);
-                            }
-                        }, 200); // 200ms steps for a very slow, organic entry
-                    }).catch(error => {
-                        console.log("Interaction required for audio: ", error);
-                    });
-                }
+                t.play();
+                let vol = 0;
+                const interval = setInterval(() => {
+                    if (vol < 0.4) { vol += 0.01; t.volume = vol; }
+                    else { clearInterval(interval); }
+                }, 150);
             });
 
-            // Visual feedback once the universe is "awake"
-            document.getElementById('instruction').style.opacity = "0.7";
             document.getElementById('instruction').innerText = "Universe Synchronized";
-            document.getElementById('monolith').style.borderColor = "rgba(255,255,255,0.6)";
         }
+
+        // Logic for "Shadows": Fade in artifacts when mouse moves away from center
+        document.addEventListener('mousemove', (e) => {
+            if (!isActive) return;
+
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+
+            // Calculate distance from center
+            const distance = Math.sqrt(Math.pow(mouseX - centerX, 2) + Math.pow(mouseY - centerY, 2));
+            
+            // If distance is greater than 200px, start fading in the coordinates
+            const artifacts = document.querySelectorAll('.artifact');
+            let opacity = (distance - 150) / 400; // Adjust these numbers to change sensitivity
+            if (opacity < 0) opacity = 0;
+            if (opacity > 0.7) opacity = 0.7;
+
+            artifacts.forEach(a => a.style.opacity = opacity);
+        });
     </script>
 </body>
-</html>
-</html>
