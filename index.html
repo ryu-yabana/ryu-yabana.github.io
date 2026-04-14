@@ -114,6 +114,65 @@
             50% { transform: translateY(-20px); }
         }
 
+        /* Lumera Geometric Artifact */
+        #art-lumera-container {
+            position: absolute;
+            top: 25%;
+            right: 15%;
+            width: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            text-decoration: none;
+            transition: opacity 3s ease;
+            cursor: pointer;
+            z-index: 6;
+        }
+
+        #art-lumera-container.visible {
+            opacity: 1;
+        }
+
+        .lumera-geo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(200,220,255,0.05) 0%, rgba(255,255,255,0.3) 50%, rgba(150,180,220,0.05) 100%);
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 0 30px rgba(100,150,250,0.1);
+            animation: geometry-pulse 6s infinite ease-in-out;
+            transition: 1.5s;
+        }
+
+        #art-lumera-container:hover .lumera-geo {
+            box-shadow: 0 0 50px rgba(150,200,255,0.6);
+            transform: scale(1.1) rotate(45deg);
+            background: linear-gradient(135deg, rgba(200,220,255,0.2) 0%, rgba(255,255,255,0.8) 50%, rgba(150,180,220,0.2) 100%);
+        }
+
+        .lumera-title {
+            margin-top: 15px;
+            font-size: 10px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            animation: title-fade 9s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes geometry-pulse {
+            0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.3; box-shadow: 0 0 30px rgba(100,150,250,0.1); }
+            50% { transform: rotate(5deg) scale(1.05); opacity: 0.8; box-shadow: 0 0 60px rgba(150,200,255,0.4); }
+        }
+
+        @keyframes title-fade {
+            0%, 100% { opacity: 0; transform: translateY(0); }
+            40%, 60% { opacity: 0.6; transform: translateY(-3px); }
+        }
+
         /* Artifacts */
         .artifact {
             position: absolute;
@@ -211,6 +270,10 @@
                 align-items: center;
                 gap: 60px;
             }
+            #art-lumera-container {
+                right: 10%;
+                top: 15%;
+            }
         }
     </style>
 </head>
@@ -232,6 +295,11 @@
     </div>
 
     <div id="monolith" onclick="startUniverse()"></div>
+
+    <a href="https://ryu-yabana.github.io/Lumera/" target="_blank" id="art-lumera-container">
+        <div class="lumera-geo"></div>
+        <div class="lumera-title">LUMERA</div>
+    </a>
 
     <a href="https://www.youtube.com/@YabanaMusic" target="_blank" class="artifact" id="art-yt">LOC // YT-01</a>
     <a href="https://yabanamusic.bandcamp.com/" target="_blank" class="artifact" id="art-bc">LOC // BC-02</a>
@@ -289,9 +357,15 @@ function startUniverse() {
 
     document.getElementById('instruction').innerText = "Universe Active // Move or touch to shape sound";
     document.getElementById('identity').style.opacity = 0.6;
+    
+    // Reveal Lumera artifact
+    document.getElementById('art-lumera-container').classList.add('visible');
+    
+    // Reveal other background artifacts
+    document.querySelectorAll('.artifact').forEach(art => art.style.opacity = 0.5);
 }
 
-/* Desktop */
+/* Desktop Interaction */
 document.addEventListener('mousemove', (e) => {
     if (!isActive) return;
 
@@ -307,15 +381,13 @@ document.addEventListener('mousemove', (e) => {
     }
 });
 
-/* Mobile */
+/* Mobile Interaction */
 document.addEventListener('touchmove', (e) => {
     if (!isActive) return;
 
     const touch = e.touches[0];
-
     const y = touch.clientY;
     const percent = y / window.innerHeight;
-
     const freq = 400 + (1 - percent) * 19600;
 
     if (biquadFilter) {
