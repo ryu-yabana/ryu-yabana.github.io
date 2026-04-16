@@ -330,10 +330,10 @@
         <span class="node-sub">(Bandcamp)</span>
     </a>
 
-    <a href="mailto:ryu.yabana%2Binquiry@gmail.com" class="pulse-node">
+    <a href="javascript:void(0)" onclick="handleContact(this)" class="pulse-node">
         <div class="circle-ring"></div>
-        <span class="node-label">Inquiry</span>
-        <span class="node-sub">(Email)</span>
+        <span class="node-label" id="contact-label">Inquiry</span>
+        <span class="node-sub" id="contact-sub">(Click to Copy)</span>
     </a>
 
 </section>
@@ -402,6 +402,26 @@ document.addEventListener('touchmove', (e) => {
         biquadFilter.frequency.setTargetAtTime(freq, audioCtx.currentTime, 0.1);
     }
 });
+
+    // Add this inside your existing <script> block at the bottom
+function handleContact(element) {
+    const email = "ryu.yabana+inquiry@gmail.com";
+    
+    navigator.clipboard.writeText(email).then(() => {
+        const label = document.getElementById('contact-label');
+        const sub = document.getElementById('contact-sub');
+
+        label.innerText = "COPIED";
+        sub.innerText = "Check your clipboard"; // Keeping it short looks better in your minimalist style
+
+        setTimeout(() => {
+            label.innerText = "Inquiry";
+            sub.innerText = "(Click to Copy)";
+        }, 4000);
+    }).catch(err => {
+        alert("Contact: " + email);
+    });
+}
 </script>
 
 </body>
