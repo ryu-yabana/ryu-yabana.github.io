@@ -19,219 +19,111 @@
         body, html {
             margin: 0;
             padding: 0;
-            /* Swapped to a soft off-white for a 'Quiet Luxury' feel */
-            background: #fdfdfd; 
-            color: #1a1a1a;
+            background: #f4f4f4; /* Slightly deeper gray for better object definition */
+            color: #222; /* Near-black for maximum readability */
             font-family: 'Courier New', Courier, monospace;
             min-height: 100vh;
             scroll-behavior: smooth;
         }
 
-        /* Mist */
-        .mist-container {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-
+        /* Mist - Darkened to look like subtle clouds/depth */
         .blob {
             position: absolute;
             width: 600px; height: 600px;
-            /* Changed gradient to a soft blue/grey that shows on white */
-            background: radial-gradient(circle, rgba(200,210,220,0.4) 0%, rgba(255,255,255,0) 70%);
+            background: radial-gradient(circle, rgba(0,0,0,0.05) 0%, rgba(244,244,244,0) 70%);
             border-radius: 50%;
             filter: blur(80px);
             animation: drift 25s infinite ease-in-out;
         }
 
         #blob1 { left: -10%; top: 10%; }
-        #blob2 { left: 40%; top: 20%; animation-duration: 35s; opacity: 0.5; }
+        #blob2 { left: 40%; top: 20%; animation-duration: 35s; opacity: 0.7; }
 
-        @keyframes drift {
-            0%, 100% { transform: translate(0,0) scale(1); }
-            50% { transform: translate(100px, -50px) scale(1.1); }
-        }
-
-        /* Grain - Modified to be visible on light background */
+        /* Grain - Increased opacity for a paper-like texture */
         .grain {
             position: fixed;
             top: -50%; left: -50%;
             width: 200%; height: 200%;
             background-image: url("https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Resolution_White_Noise_Video_Frame.png");
-            opacity: 0.06; /* Slightly higher opacity for texture */
-            filter: invert(1); /* Inverts noise so it looks like dark dust on light */
+            opacity: 0.08; 
+            filter: invert(1);
             pointer-events: none;
             z-index: 10;
             animation: noise 0.2s infinite;
         }
 
-        @keyframes noise {
-            0% { transform: translate(0,0); }
-            50% { transform: translate(-5%, 5%); }
-            100% { transform: translate(5%, -5%); }
-        }
-
-        /* Universe */
-        #universe {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            z-index: 5;
-        }
-
-        /* Identity */
+        /* Identity - Solidified for readability */
         #identity {
             position: absolute;
             top: 10%;
             width: 100%;
             text-align: center;
-            font-size: 11px;
+            font-size: 12px;
             letter-spacing: 6px;
             opacity: 0;
             transition: opacity 2s ease;
             color: #000;
+            font-weight: bold;
         }
 
-        #identity span {
-            display: block;
-            margin-top: 8px;
-            font-size: 9px;
-            letter-spacing: 3px;
-            opacity: 0.5;
-        }
-
-        /* Monolith - Darker glass for contrast */
+        /* Monolith - Defined with a stronger border and shadow */
         #monolith {
             width: 60px;
             height: 280px;
-            background: rgba(0, 0, 0, 0.03);
+            background: rgba(0, 0, 0, 0.07); /* Darkened slightly */
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            box-shadow: 0 0 40px rgba(0,0,0,0.05), inset 0 0 15px rgba(0,0,0,0.02);
-            border: 1px solid rgba(0,0,0,0.1);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1); /* Added weight to shadow */
+            border: 1px solid rgba(0,0,0,0.3); /* Stronger border */
             cursor: pointer;
             transition: all 3s cubic-bezier(0.16, 1, 0.3, 1);
             animation: float 8s ease-in-out infinite;
         }
 
         #monolith:hover {
-            height: 320px;
-            border-color: rgba(0,0,0,0.4);
+            border-color: rgba(0,0,0,0.8);
+            background: rgba(0, 0, 0, 0.1);
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        /* Lumera Geometric Artifact */
-        #art-lumera-container {
-            position: absolute;
-            top: 25%;
-            right: 15%;
-            width: 120px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            opacity: 0;
-            text-decoration: none;
-            transition: opacity 3s ease;
-            cursor: pointer;
-            z-index: 6;
-        }
-
-        #art-lumera-container.visible {
-            opacity: 1;
-        }
-
+        /* Lumera Artifact - Solidified colors */
         .lumera-geo {
             width: 50px;
             height: 50px;
-            background: linear-gradient(135deg, rgba(100,120,150,0.1) 0%, rgba(0,0,0,0.1) 50%, rgba(100,120,150,0.1) 100%);
+            background: #333; /* Make the shape solid for impact */
             clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            box-shadow: 0 0 30px rgba(0,0,0,0.05);
+            box-shadow: 0 0 30px rgba(0,0,0,0.15);
             animation: geometry-pulse 6s infinite ease-in-out;
-            transition: 1.5s;
-        }
-
-        #art-lumera-container:hover .lumera-geo {
-            box-shadow: 0 0 50px rgba(0,0,0,0.2);
-            transform: scale(1.1) rotate(45deg);
-            background: linear-gradient(135deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.1) 100%);
         }
 
         .lumera-title {
-            margin-top: 15px;
-            font-size: 10px;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            color: rgba(0,0,0,0.5);
-            animation: title-fade 9s infinite ease-in-out;
-            pointer-events: none;
+            color: #000;
+            font-weight: bold;
+            opacity: 0.8;
         }
 
-        @keyframes geometry-pulse {
-            0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.3; box-shadow: 0 0 30px rgba(0,0,0,0.05); }
-            50% { transform: rotate(5deg) scale(1.05); opacity: 0.6; box-shadow: 0 0 60px rgba(0,0,0,0.1); }
-        }
-
-        @keyframes title-fade {
-            0%, 100% { opacity: 0; transform: translateY(0); }
-            40%, 60% { opacity: 0.6; transform: translateY(-3px); }
-        }
-
-        /* Artifacts */
+        /* Artifacts (The small text LOC // YT-01) */
         .artifact {
             position: absolute;
-            font-size: 9px;
-            letter-spacing: 2px;
-            text-decoration: none;
-            color: rgba(0, 0, 0, 0.4);
+            font-size: 10px;
+            font-weight: bold;
+            color: #444; /* Darker gray */
             opacity: 0;
             transition: opacity 1.5s ease;
         }
-
-        #art-yt { top: 20%; left: 20%; }
-        #art-bc { bottom: 25%; left: 30%; }
 
         /* Instruction */
         #instruction {
             position: absolute;
             bottom: 8%;
-            font-size: 10px;
-            letter-spacing: 5px;
-            opacity: 0.4;
+            font-size: 11px;
+            letter-spacing: 4px;
             color: #000;
+            opacity: 0.6;
         }
 
-        /* Nodes */
-        #node-section {
-            padding: 200px 0;
-            display: flex;
-            justify-content: center;
-            gap: 80px;
-            z-index: 5;
-            position: relative;
-        }
-
+        /* Nodes - Increased contrast */
         .pulse-node {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: rgba(0,0,0,0.5);
-            transition: 0.8s;
-        }
-
-        .pulse-node:visited {
-            color: rgba(0,0,0,0.5);
+            color: #444;
         }
 
         .pulse-node:hover {
@@ -239,57 +131,16 @@
         }
 
         .circle-ring {
-            width: 70px;
-            height: 70px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: 1.2s;
+            border: 2px solid rgba(0, 0, 0, 0.2); /* Thicker ring */
         }
 
         .pulse-node:hover .circle-ring {
-            width: 100px;
-            height: 100px;
-            border-color: rgba(0,0,0,0.4);
+            border-color: rgba(0,0,0,1);
         }
 
-        .node-label {
-            margin-top: 25px;
-            font-size: 10px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            transition: 0.6s;
-        }
+        .node-label { font-weight: bold; }
+        .node-sub { color: #666; }
 
-        .node-sub {
-            margin-top: 6px;
-            font-size: 9px;
-            letter-spacing: 2px;
-            color: rgba(0,0,0,0.4);
-            transition: 0.6s;
-        }
-
-        .pulse-node:hover .node-label {
-            letter-spacing: 7px;
-        }
-
-        .pulse-node:hover .node-sub {
-            color: rgba(0,0,0,0.8);
-        }
-
-        @media (max-width: 768px) {
-            #node-section {
-                flex-direction: column;
-                align-items: center;
-                gap: 60px;
-            }
-            #art-lumera-container {
-                right: 10%;
-                top: 15%;
-            }
-        }
     </style>
 </head>
 
