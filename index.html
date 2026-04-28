@@ -1,147 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Ryu Yabana | Official Artist Website</title>
-    <meta name="description" content="Official website of Ryuyabana. Explore sound design, electronic music, and the Dualism Collective project.">
-    
-    <meta property="og:title" content="Ryuyabana | Artist & Sound Designer">
-    <meta property="og:description" content="Mature and contemplative electronic music and sound design.">
-    <meta property="og:url" content="https://ryu-yabana.github.io/">
-    <meta property="og:type" content="website">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Ryu Yabana | Official Artist Website</title>
+    <meta name="description" content="Official website of Ryuyabana. Explore sound design, electronic music, and the Dualism Collective project.">
+    
+    <meta property="og:title" content="Ryuyabana | Artist & Sound Designer">
+    <meta property="og:description" content="Mature and contemplative electronic music and sound design.">
+    <meta property="og:url" content="https://ryu-yabana.github.io/">
+    <meta property="og:type" content="website">
 
-    <script data-goatcounter="https://ryu-yabana.goatcounter.com/count"
-            async src="//gc.zgo.at/count.js"></script>
+    <script data-goatcounter="https://ryu-yabana.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
 
-<style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            background: #f4f4f4; /* Slightly deeper gray for better object definition */
-            color: #222; /* Near-black for maximum readability */
-            font-family: 'Courier New', Courier, monospace;
-            min-height: 100vh;
-            scroll-behavior: smooth;
-        }
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            background: #050505;
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
+            min-height: 100vh;
+            scroll-behavior: smooth;
+        }
 
-        /* Mist - Darkened to look like subtle clouds/depth */
-        .blob {
-            position: absolute;
-            width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(0,0,0,0.05) 0%, rgba(244,244,244,0) 70%);
-            border-radius: 50%;
-            filter: blur(80px);
-            animation: drift 25s infinite ease-in-out;
-        }
+        /* Mist */
+        .mist-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
 
-        #blob1 { left: -10%; top: 10%; }
-        #blob2 { left: 40%; top: 20%; animation-duration: 35s; opacity: 0.7; }
+        .blob {
+            position: absolute;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(20,30,40,0.3) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: drift 25s infinite ease-in-out;
+        }
 
-        /* Grain - Increased opacity for a paper-like texture */
-        .grain {
-            position: fixed;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background-image: url("https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Resolution_White_Noise_Video_Frame.png");
-            opacity: 0.08; 
-            filter: invert(1);
-            pointer-events: none;
-            z-index: 10;
-            animation: noise 0.2s infinite;
-        }
+        #blob1 { left: -10%; top: 10%; }
+        #blob2 { left: 40%; top: 20%; animation-duration: 35s; opacity: 0.5; }
 
-        /* Identity - Solidified for readability */
-        #identity {
-            position: absolute;
-            top: 10%;
-            width: 100%;
-            text-align: center;
-            font-size: 12px;
-            letter-spacing: 6px;
-            opacity: 0;
-            transition: opacity 2s ease;
-            color: #000;
-            font-weight: bold;
-        }
+        @keyframes drift {
+            0%, 100% { transform: translate(0,0) scale(1); }
+            50% { transform: translate(100px, -50px) scale(1.1); }
+        }
 
-        /* Monolith - Defined with a stronger border and shadow */
-        #monolith {
-            width: 60px;
-            height: 280px;
-            background: rgba(0, 0, 0, 0.07); /* Darkened slightly */
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1); /* Added weight to shadow */
-            border: 1px solid rgba(0,0,0,0.3); /* Stronger border */
-            cursor: pointer;
-            transition: all 3s cubic-bezier(0.16, 1, 0.3, 1);
-            animation: float 8s ease-in-out infinite;
-        }
+        /* Grain */
+        .grain {
+            position: fixed;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background-image: url("https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Resolution_White_Noise_Video_Frame.png");
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 10;
+            animation: noise 0.2s infinite;
+        }
 
-        #monolith:hover {
-            border-color: rgba(0,0,0,0.8);
-            background: rgba(0, 0, 0, 0.1);
-        }
+        @keyframes noise {
+            0% { transform: translate(0,0); }
+            50% { transform: translate(-5%, 5%); }
+            100% { transform: translate(5%, -5%); }
+        }
 
-        /* Lumera Artifact - Solidified colors */
-        .lumera-geo {
-            width: 50px;
-            height: 50px;
-            background: #333; /* Make the shape solid for impact */
-            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-            box-shadow: 0 0 30px rgba(0,0,0,0.15);
-            animation: geometry-pulse 6s infinite ease-in-out;
-        }
+        /* Universe */
+        #universe {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 5;
+        }
 
-        .lumera-title {
-            color: #000;
-            font-weight: bold;
-            opacity: 0.8;
-        }
+        /* Identity */
+        #identity {
+            position: absolute;
+            top: 10%;
+            width: 100%;
+            text-align: center;
+            font-size: 11px;
+            letter-spacing: 6px;
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
 
-        /* Artifacts (The small text LOC // YT-01) */
-        .artifact {
-            position: absolute;
-            font-size: 10px;
-            font-weight: bold;
-            color: #444; /* Darker gray */
-            opacity: 0;
-            transition: opacity 1.5s ease;
-        }
+        #identity span {
+            display: block;
+            margin-top: 8px;
+            font-size: 9px;
+            letter-spacing: 3px;
+            opacity: 0.5;
+        }
 
-        /* Instruction */
-        #instruction {
-            position: absolute;
-            bottom: 8%;
-            font-size: 11px;
-            letter-spacing: 4px;
-            color: #000;
-            opacity: 0.6;
-        }
+        /* Monolith */
+        #monolith {
+            width: 60px;
+            height: 280px;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 0 40px rgba(0,0,0,0.5), inset 0 0 15px rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            transition: all 3s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: float 8s ease-in-out infinite;
+        }
 
-        /* Nodes - Increased contrast */
-        .pulse-node {
-            color: #444;
-        }
+        #monolith:hover {
+            height: 320px;
+            border-color: rgba(255,255,255,0.5);
+        }
 
-        .pulse-node:hover {
-            color: #000;
-        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
 
-        .circle-ring {
-            border: 2px solid rgba(0, 0, 0, 0.2); /* Thicker ring */
-        }
+        /* Lumera Geometric Artifact */
+        #art-lumera-container {
+            position: absolute;
+            top: 25%;
+            right: 15%;
+            width: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            text-decoration: none;
+            transition: opacity 3s ease;
+            cursor: pointer;
+            z-index: 6;
+        }
 
-        .pulse-node:hover .circle-ring {
-            border-color: rgba(0,0,0,1);
-        }
+        #art-lumera-container.visible {
+            opacity: 1;
+        }
 
-        .node-label { font-weight: bold; }
-        .node-sub { color: #666; }
+        .lumera-geo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(200,220,255,0.05) 0%, rgba(255,255,255,0.3) 50%, rgba(150,180,220,0.05) 100%);
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 0 30px rgba(100,150,250,0.1);
+            animation: geometry-pulse 6s infinite ease-in-out;
+            transition: 1.5s;
+        }
 
-    </style>
+        #art-lumera-container:hover .lumera-geo {
+            box-shadow: 0 0 50px rgba(150,200,255,0.6);
+            transform: scale(1.1) rotate(45deg);
+            background: linear-gradient(135deg, rgba(200,220,255,0.2) 0%, rgba(255,255,255,0.8) 50%, rgba(150,180,220,0.2) 100%);
+        }
+
+        .lumera-title {
+            margin-top: 15px;
+            font-size: 10px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            animation: title-fade 9s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes geometry-pulse {
+            0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.3; box-shadow: 0 0 30px rgba(100,150,250,0.1); }
+            50% { transform: rotate(5deg) scale(1.05); opacity: 0.8; box-shadow: 0 0 60px rgba(150,200,255,0.4); }
+        }
+
+        @keyframes title-fade {
+            0%, 100% { opacity: 0; transform: translateY(0); }
+            40%, 60% { opacity: 0.6; transform: translateY(-3px); }
+        }
+
+        /* Artifacts */
+        .artifact {
+            position: absolute;
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        #art-yt { top: 20%; left: 20%; }
+        #art-bc { bottom: 25%; left: 30%; }
+
+        /* Instruction */
+        #instruction {
+            position: absolute;
+            bottom: 8%;
+            font-size: 10px;
+            letter-spacing: 5px;
+            opacity: 0.3;
+        }
+
+        /* Nodes */
+        #node-section {
+            padding: 200px 0;
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            z-index: 5;
+            position: relative;
+        }
+
+        .pulse-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: rgba(255,255,255,0.4);
+            transition: 0.8s;
+        }
+
+        .pulse-node:visited {
+            color: rgba(255,255,255,0.4);
+        }
+
+        .pulse-node:hover {
+            color: white;
+        }
+
+        .circle-ring {
+            width: 70px;
+            height: 70px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 1.2s;
+        }
+
+        .pulse-node:hover .circle-ring {
+            width: 100px;
+            height: 100px;
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        .node-label {
+            margin-top: 25px;
+            font-size: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            transition: 0.6s;
+        }
+
+        .node-sub {
+            margin-top: 6px;
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.3);
+            transition: 0.6s;
+        }
+
+        .pulse-node:hover .node-label {
+            letter-spacing: 7px;
+        }
+
+        .pulse-node:hover .node-sub {
+            color: rgba(255,255,255,0.7);
+        }
+
+        @media (max-width: 768px) {
+            #node-section {
+                flex-direction: column;
+                align-items: center;
+                gap: 60px;
+            }
+            #art-lumera-container {
+                right: 10%;
+                top: 15%;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -149,56 +293,56 @@
 <div class="grain"></div>
 
 <div class="mist-container">
-    <div class="blob" id="blob1"></div>
-    <div class="blob" id="blob2"></div>
+    <div class="blob" id="blob1"></div>
+    <div class="blob" id="blob2"></div>
 </div>
 
 <section id="universe">
 
-    <div id="identity">
-        RYU YABANA
-        <span>Official Website</span>
-    </div>
+    <div id="identity">
+        RYU YABANA
+        <span>Official Website</span>
+    </div>
 
-    <div id="monolith" onclick="startUniverse()"></div>
+    <div id="monolith" onclick="startUniverse()"></div>
 
-    <a href="https://ryu-yabana.github.io/Lumera/" target="_blank" id="art-lumera-container">
-        <div class="lumera-geo"></div>
-        <div class="lumera-title">LUMERA</div>
-    </a>
+    <a href="https://ryu-yabana.github.io/Lumera/" target="_blank" id="art-lumera-container">
+        <div class="lumera-geo"></div>
+        <div class="lumera-title">LUMERA</div>
+    </a>
 
-    <a href="https://www.youtube.com/@YabanaMusic" target="_blank" class="artifact" id="art-yt">LOC // YT-01</a>
-    <a href="https://yabanamusic.bandcamp.com/" target="_blank" class="artifact" id="art-bc">LOC // BC-02</a>
+    <a href="https://www.youtube.com/@YabanaMusic" target="_blank" class="artifact" id="art-yt">LOC // YT-01</a>
+    <a href="https://yabanamusic.bandcamp.com/" target="_blank" class="artifact" id="art-bc">LOC // BC-02</a>
 
-    <div id="instruction">Touch to Synchronize</div>
+    <div id="instruction">Touch to Synchronize</div>
 
 </section>
 
 <section id="node-section">
 
-    <a href="https://www.youtube.com/@YabanaMusic" target="_blank" class="pulse-node">
-        <div class="circle-ring"></div>
-        <span class="node-label">Transmission</span>
-        <span class="node-sub">(YouTube)</span>
-    </a>
+    <a href="https://www.youtube.com/@YabanaMusic" target="_blank" class="pulse-node">
+        <div class="circle-ring"></div>
+        <span class="node-label">Transmission</span>
+        <span class="node-sub">(YouTube)</span>
+    </a>
 
-    <a href="https://ryuyabana.gumroad.com/" target="_blank" class="pulse-node">
-        <div class="circle-ring"></div>
-        <span class="node-label">Soundware</span>
-        <span class="node-sub">(Gumroad)</span>
-    </a>
+    <a href="https://ryuyabana.gumroad.com/" target="_blank" class="pulse-node">
+        <div class="circle-ring"></div>
+        <span class="node-label">Soundware</span>
+        <span class="node-sub">(Gumroad)</span>
+    </a>
 
-    <a href="https://ko-fi.com/ryuyabana/shop" target="_blank" class="pulse-node">
-        <div class="circle-ring"></div>
-        <span class="node-label">Discography</span>
-        <span class="node-sub">(Ko-Fi)</span>
-    </a>
+    <a href="https://ko-fi.com/ryuyabana/shop" target="_blank" class="pulse-node">
+        <div class="circle-ring"></div>
+        <span class="node-label">Discography</span>
+        <span class="node-sub">(Ko-Fi)</span>
+    </a>
 
-    <a href="javascript:void(0)" onclick="handleContact(this)" class="pulse-node">
-        <div class="circle-ring"></div>
-        <span class="node-label" id="contact-label">Inquiry</span>
-        <span class="node-sub" id="contact-sub">(Click to Copy)</span>
-    </a>
+    <a href="javascript:void(0)" onclick="handleContact(this)" class="pulse-node">
+        <div class="circle-ring"></div>
+        <span class="node-label" id="contact-label">Inquiry</span>
+        <span class="node-sub" id="contact-sub">(Click to Copy)</span>
+    </a>
 
 </section>
 
@@ -206,85 +350,85 @@
 let audioCtx, biquadFilter, isActive = false;
 
 function startUniverse() {
-    if (isActive) return;
-    isActive = true;
+    if (isActive) return;
+    isActive = true;
 
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    biquadFilter = audioCtx.createBiquadFilter();
-    biquadFilter.type = "lowpass";
-    biquadFilter.frequency.setValueAtTime(400, audioCtx.currentTime);
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    biquadFilter = audioCtx.createBiquadFilter();
+    biquadFilter.type = "lowpass";
+    biquadFilter.frequency.setValueAtTime(400, audioCtx.currentTime);
 
-    const files = ['main-bgm-percs.mp3', 'main-bgm-pad-1.mp3', 'main-bgm-pad-2.mp3'];
+    const files = ['main-bgm-percs.mp3', 'main-bgm-pad-1.mp3', 'main-bgm-pad-2.mp3'];
 
-    files.forEach(file => {
-        const audio = new Audio(file);
-        audio.loop = true;
+    files.forEach(file => {
+        const audio = new Audio(file);
+        audio.loop = true;
 
-        const source = audioCtx.createMediaElementSource(audio);
-        source.connect(biquadFilter);
-        biquadFilter.connect(audioCtx.destination);
+        const source = audioCtx.createMediaElementSource(audio);
+        source.connect(biquadFilter);
+        biquadFilter.connect(audioCtx.destination);
 
-        audio.play();
-    });
+        audio.play();
+    });
 
-    document.getElementById('instruction').innerText = "Universe Active // Move or touch to shape sound";
-    document.getElementById('identity').style.opacity = 0.6;
-    
-    // Reveal Lumera artifact
-    document.getElementById('art-lumera-container').classList.add('visible');
-    
-    // Reveal other background artifacts
-    document.querySelectorAll('.artifact').forEach(art => art.style.opacity = 0.5);
+    document.getElementById('instruction').innerText = "Universe Active // Move or touch to shape sound";
+    document.getElementById('identity').style.opacity = 0.6;
+    
+    // Reveal Lumera artifact
+    document.getElementById('art-lumera-container').classList.add('visible');
+    
+    // Reveal other background artifacts
+    document.querySelectorAll('.artifact').forEach(art => art.style.opacity = 0.5);
 }
 
 /* Desktop Interaction */
 document.addEventListener('mousemove', (e) => {
-    if (!isActive) return;
+    if (!isActive) return;
 
-    const dist = Math.sqrt(
-        Math.pow(e.clientX - window.innerWidth/2, 2) +
-        Math.pow(e.clientY - window.innerHeight/2, 2)
-    );
+    const dist = Math.sqrt(
+        Math.pow(e.clientX - window.innerWidth/2, 2) +
+        Math.pow(e.clientY - window.innerHeight/2, 2)
+    );
 
-    const freq = Math.max(400, 20000 - (dist * 20));
+    const freq = Math.max(400, 20000 - (dist * 20));
 
-    if (biquadFilter) {
-        biquadFilter.frequency.setTargetAtTime(freq, audioCtx.currentTime, 0.1);
-    }
+    if (biquadFilter) {
+        biquadFilter.frequency.setTargetAtTime(freq, audioCtx.currentTime, 0.1);
+    }
 });
 
 /* Mobile Interaction */
 document.addEventListener('touchmove', (e) => {
-    if (!isActive) return;
+    if (!isActive) return;
 
-    const touch = e.touches[0];
-    const y = touch.clientY;
-    const percent = y / window.innerHeight;
-    const freq = 400 + (1 - percent) * 19600;
+    const touch = e.touches[0];
+    const y = touch.clientY;
+    const percent = y / window.innerHeight;
+    const freq = 400 + (1 - percent) * 19600;
 
-    if (biquadFilter) {
-        biquadFilter.frequency.setTargetAtTime(freq, audioCtx.currentTime, 0.1);
-    }
+    if (biquadFilter) {
+        biquadFilter.frequency.setTargetAtTime(freq, audioCtx.currentTime, 0.1);
+    }
 });
 
-    // Add this inside your existing <script> block at the bottom
+    // Add this inside your existing <script> block at the bottom
 function handleContact(element) {
-    const email = "ryu.yabana+inquiry@gmail.com";
-    
-    navigator.clipboard.writeText(email).then(() => {
-        const label = document.getElementById('contact-label');
-        const sub = document.getElementById('contact-sub');
+    const email = "ryu.yabana+inquiry@gmail.com";
+    
+    navigator.clipboard.writeText(email).then(() => {
+        const label = document.getElementById('contact-label');
+        const sub = document.getElementById('contact-sub');
 
-        label.innerText = "COPIED";
-        sub.innerText = "Check your clipboard"; // Keeping it short looks better in your minimalist style
+        label.innerText = "COPIED";
+        sub.innerText = "Check your clipboard"; // Keeping it short looks better in your minimalist style
 
-        setTimeout(() => {
-            label.innerText = "Inquiry";
-            sub.innerText = "(Click to Copy)";
-        }, 4000);
-    }).catch(err => {
-        alert("Contact: " + email);
-    });
+        setTimeout(() => {
+            label.innerText = "Inquiry";
+            sub.innerText = "(Click to Copy)";
+        }, 4000);
+    }).catch(err => {
+        alert("Contact: " + email);
+    });
 }
 </script>
 
