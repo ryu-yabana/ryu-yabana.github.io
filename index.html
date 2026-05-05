@@ -304,10 +304,9 @@
         <span>Official Website</span>
     </div>
 
-    <!-- 1. Monolith trigger -->
-    <div id="monolith" onclick="startUniverse()"></div>
+    <!-- Monolith: Clicks start background, mouseenter plays monolyth.wav after start -->
+    <div id="monolith" onclick="startUniverse()" onmouseenter="handleMonolithHover()"></div>
 
-    <!-- 3. LUMERA hover trigger -->
     <a href="https://ryu-yabana.github.io/Lumera/" target="_blank" id="art-lumera-container" onmouseenter="playSfx('Alert_Error_01_WOOD.wav')">
         <div class="lumera-geo"></div>
         <div class="lumera-title">LUMERA</div>
@@ -351,7 +350,6 @@
 <script>
 let audioCtx, biquadFilter, isActive = false;
 
-// Helper function to play a one-shot sound effect through the filter
 function playSfx(file) {
     if (!audioCtx) return;
     const sfx = new Audio(file);
@@ -361,12 +359,14 @@ function playSfx(file) {
     sfx.play();
 }
 
-function startUniverse() {
-    // 1. If already active, play the monolyth.wav instead of re-starting background
+function handleMonolithHover() {
     if (isActive) {
         playSfx('monolyth.wav');
-        return;
     }
+}
+
+function startUniverse() {
+    if (isActive) return;
     
     isActive = true;
 
@@ -391,21 +391,16 @@ function startUniverse() {
     document.getElementById('instruction').innerText = "Universe Active // Move or touch to shape sound";
     document.getElementById('identity').style.opacity = 0.6;
     
-    // Reveal Lumera artifact
     document.getElementById('art-lumera-container').classList.add('visible');
-    
-    // Reveal other background artifacts
     document.querySelectorAll('.artifact').forEach(art => art.style.opacity = 0.5);
 }
 
-/* 2. Circle Hover Sound Logic */
 document.querySelectorAll('.pulse-node').forEach(node => {
     node.addEventListener('mouseenter', () => {
         if (isActive) playSfx('Circle.wav');
     });
 });
 
-/* Desktop Interaction */
 document.addEventListener('mousemove', (e) => {
     if (!isActive) return;
 
@@ -421,7 +416,6 @@ document.addEventListener('mousemove', (e) => {
     }
 });
 
-/* Mobile Interaction */
 document.addEventListener('touchmove', (e) => {
     if (!isActive) return;
 
