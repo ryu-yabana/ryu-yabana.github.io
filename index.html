@@ -208,7 +208,7 @@
 
         /* Nodes */
         #node-section {
-            padding: 200px 0;
+            padding: 200px 0 100px; /* 余白を調整 */
             display: flex;
             justify-content: center;
             gap: 80px;
@@ -274,6 +274,71 @@
             color: rgba(255,255,255,0.7);
         }
 
+        /* Legal Section */
+        footer {
+            padding: 50px 0 100px;
+            text-align: center;
+            z-index: 5;
+            position: relative;
+        }
+
+        .legal-link {
+            font-size: 9px;
+            letter-spacing: 3px;
+            color: rgba(255, 255, 255, 0.2);
+            text-decoration: none;
+            transition: 0.6s;
+            border-bottom: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        .legal-link:hover {
+            color: rgba(255, 255, 255, 0.6);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .legal-content {
+            display: none;
+            margin-top: 40px;
+            text-align: left;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 9px;
+            line-height: 2;
+            color: rgba(255, 255, 255, 0.4);
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .legal-content h3 {
+            font-size: 11px;
+            letter-spacing: 3px;
+            margin-bottom: 25px;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+        }
+
+        .legal-content ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .legal-content li {
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            padding-bottom: 8px;
+        }
+
+        .legal-content strong {
+            color: rgba(255, 255, 255, 0.6);
+            display: inline-block;
+            width: 150px;
+        }
+
         @media (max-width: 768px) {
             #node-section {
                 flex-direction: column;
@@ -283,6 +348,14 @@
             #art-lumera-container {
                 right: 10%;
                 top: 15%;
+            }
+            .legal-content {
+                width: 85%;
+            }
+            .legal-content strong {
+                display: block;
+                width: 100%;
+                margin-bottom: 4px;
             }
         }
     </style>
@@ -304,7 +377,6 @@
         <span>Official Website</span>
     </div>
 
-    <!-- Monolith: Clicks start background, mouseenter plays monolyth.wav after start -->
     <div id="monolith" onclick="startUniverse()" onmouseenter="handleMonolithHover()"></div>
 
     <a href="https://ryu-yabana.github.io/Lumera/" target="_blank" id="art-lumera-container" onmouseenter="playSfx('Alert_Error_01_WOOD.wav')">
@@ -347,8 +419,37 @@
 
 </section>
 
+<footer>
+    <a href="javascript:void(0)" class="legal-link" onclick="toggleLegal()">特定商取引法に基づく表記 (Legal Compliance)</a>
+    
+    <div id="legal-info" class="legal-content">
+        <h3>特定商取引法に基づく表記</h3>
+        <ul>
+            <li><strong>販売業者</strong>矢花 龍太郎 (Ryu Yabana)</li>
+            <li><strong>所在地・電話番号</strong>消費者庁の指針に基づき、請求があった場合は遅滞なく提供いたします。</li>
+            <li><strong>メールアドレス</strong>ryu.yabana+inquiry@gmail.com</li>
+            <li><strong>販売価格</strong>各販売ページ（Gumroad等）の表示に基づきます。</li>
+            <li><strong>追加料金</strong>なし（デジタルコンテンツのため）</li>
+            <li><strong>支払時期</strong>ご購入時に決済が確定します。</li>
+            <li><strong>支払方法</strong>クレジットカード決済（Stripe経由）</li>
+            <li><strong>商品の引渡時期</strong>決済完了後、直ちにダウンロード可能となります。</li>
+            <li><strong>返品・交換</strong>デジタルコンテンツの特性上、返品・返金には応じられません。</li>
+        </ul>
+    </div>
+</footer>
+
 <script>
 let audioCtx, biquadFilter, isActive = false;
+
+function toggleLegal() {
+    const info = document.getElementById('legal-info');
+    if (info.style.display === 'block') {
+        info.style.display = 'none';
+    } else {
+        info.style.display = 'block';
+        info.scrollIntoView({ behavior: 'smooth' });
+    }
+}
 
 function playSfx(file) {
     if (!audioCtx) return;
